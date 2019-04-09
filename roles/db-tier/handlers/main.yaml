@@ -1,0 +1,7 @@
+---
+- name: InitializePostgres
+  command: postgresql-setup initdb
+
+- name: Chkconfig
+  command: chkconfig postgresql on
+

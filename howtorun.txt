@@ -1,0 +1,22 @@
+ansible-playbook site-setup-workstation.yml -e OSP_GUID=${OSP_GUID} --private-key=/root/.ssh/mykey.pem -u piotr.kochanowski-atos.net
+ansible-playbook site-osp-instances.yml -e OSP_GUID=${OSP_GUID}
+ansible-playbook site-3tier-app.yml -e OSP_GUID=${OSP_GUID} 
+ansible-playbook site-smoke-osp.yml -e OSP_GUID=${OSP_GUID}
+
+username=piotr.kochanowski-atos.net
+password=
+uri=http://www.opentlc.com/download/ansible_bootcamp
+ansible-playbook aws_provision.yml -e OSP_GUID=${OSP_GUID} -e param_repo_base=${uri} -e param_user=${username} -e param_password=${password}
+
+TOWER_GUID=d854
+OSP_GUID=3787
+OPENTLC_LOGIN=piotr.kochanowski-atos.net
+OPENTLC_PASSWORD=
+GITHUB_REPO=https://github.com/piotr-kochanowski/ansible_advance_homework
+JQ_REPO_BASE=http://www.opentlc.com/download/ansible_bootcamp
+REGION=us-east-1
+RH_MAIL_ID=piotr.kochanowski@atos.net
+ansible-playbook site-config-tower.yml -e tower_GUID=${TOWER_GUID} -e osp_GUID=${OSP_GUID} -e opentlc_login=${OPENTLC_LOGIN} -e path_to_opentlc_key=/root/.ssh/mykey.pem -e param_repo_base=${JQ_REPO_BASE} -e opentlc_password=${OPENTLC_PASSWORD} -e REGION_NAME=${REGION} -e EMAIL=${RH_MAIL_ID} -e github_repo=${GITHUB_REPO}
+
+ANSIBLE_ADVANCE_GUID=6be4
+ansible-playbook grading-script.yml -e OSP_GUID=${OSP_GUID} -e ANSIBLE_ADVANCE_GUID=${ANSIBLE_ADVANCE_GUID}

@@ -1,0 +1,30 @@
+---
+- name: Install Postgres Server
+  yum:
+    name: postgresql-server
+    state: latest
+  notify:
+    - InitializePostgres
+    - Chkconfig
+
+- name: Enable the Server
+  service:
+    name: postgresql
+    enabled: yes
+
+#- name: Initialize Postgres
+#  command: postgresql-setup initdb
+#  failed_when: "'Data directory is not empty!' not in post_init_results.stdout_lines and post_init_results.rc == 1"
+#  changed_when: post_init_results.rc == 0
+#  register: post_init_results
+
+#- name: Chkconfig
+#  command: chkconfig postgresql on
+
+- name: Make sure initilizing handlers run before starting the Server
+  meta: flush_handlers
+
+- name: Start the Server
+  service:
+    name: postgresql
+    state: started
